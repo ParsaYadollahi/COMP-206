@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(void)
+int main()
 {
     double w1, i1,w2, i2, NumbItems, avg;
     puts("Weight if item 1");
