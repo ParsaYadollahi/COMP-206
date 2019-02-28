@@ -15,7 +15,7 @@ int main(void)
 {
     int matrix[rows][cols];
     fillMatrix(matrix); // Q1
-    // printMatrix(matrix); // Q2
+    printMatrix(matrix); // Q2
     transposeMatrix(matrix); // Q3
     printMatrix(matrix);
     int matrix2[2][cols]={0,1,2,3,4,5,6,7,8,9};
