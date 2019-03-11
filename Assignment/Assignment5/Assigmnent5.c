@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+// A program that creates a linked List from an array 
+// and adds, deletes and sorts the linked list
 
 typedef struct Node {
     int data;
@@ -7,13 +11,14 @@ typedef struct Node {
     struct Node *previous;
 } Node;
 
-
+// Headers
 Node* create_dll_from_array(int array[], int size);
 void print_dll(Node* head);
 void insert_after(Node* head, int valueToInsertAfter, int valueToBeInserted);
 void delete_element(Node* head, int valueToBeDeleted);
 void sort_dll(Node* head);
 void swap(Node* prev, Node* current);
+void memoryLeak(Node* head);
 
 
 int main(){
@@ -30,27 +35,34 @@ int main(){
     insert_after(head, 21, 29);
     print_dll(head);
     /* Question 4 */
-    delete_element(head, 22);
+    delete_element(head, 13);
     print_dll(head);
-    delete_element(head, 11);
+    delete_element(head, 11);   
     print_dll(head);
     /* Question 5 */
     sort_dll(head);
     print_dll(head);
+    /* Question 6 */
+    memoryLeak(head);
     return 0;
 }
 
+// Create the List from the array
 Node* create_dll_from_array(int array[], int size){
     int i;
     Node *head;
     Node *current;
     Node *temp;
 
+
     head = malloc(sizeof(Node));
     head->next = NULL;
     head->previous = NULL;
     current = head;
 
+    if (size == 0){  
+        return head;
+    }
     for ( i = 0; i < size; i++){
         temp = current;
         current->next = malloc(sizeof(Node));
@@ -66,6 +78,7 @@ Node* create_dll_from_array(int array[], int size){
     return head;
 }
 
+// Print the linked List
 void print_dll(Node* head){
     Node* current = head;
     while (current != NULL) {
@@ -76,6 +89,7 @@ void print_dll(Node* head){
     printf("\n");
 }
 
+// Insert an element after the desired one
 void insert_after(Node* head, int valueToInsertAfter, int valueToBeInserted){
 
     Node *new_Node;
@@ -95,6 +109,7 @@ void insert_after(Node* head, int valueToInsertAfter, int valueToBeInserted){
             current->next->previous = new_Node;
             current->next = new_Node;
             return;
+
         } else if (current->data != valueToBeInserted && current->next == NULL){
             current->next = new_Node;
             new_Node->previous = current;
@@ -110,17 +125,26 @@ void insert_after(Node* head, int valueToInsertAfter, int valueToBeInserted){
 void delete_element(Node* head, int valueToBeDeleted){
     Node *current = malloc(sizeof(Node));
     current = head;
+    int size = 0;
+    // Edge case trying to delete only node
+    while (current != NULL){
+        size++;
+        current = current->next;
+    }
+    current = head;
+    if (size == 1 && valueToBeDeleted == head->data){
+        free(head);
+        return;
+    }
         while (current != NULL){
             // First element edge case
             if (head->data == valueToBeDeleted){
                 
-
                 head->data = head->next->data;
                 head->next = head->next->next;
                 head->next->next->previous = head;
                 return;
             }
-
             // Not first nor last element
             if (current->data == valueToBeDeleted && current->next != NULL && current->previous !=NULL){
 
@@ -129,7 +153,6 @@ void delete_element(Node* head, int valueToBeDeleted){
                 free(current);
                 return;
             }
-
             // Last element edge case
             if (current->data == valueToBeDeleted){
                 
@@ -139,8 +162,10 @@ void delete_element(Node* head, int valueToBeDeleted){
             }
     current = current->next;
     }
+    free(current);
 }
 
+// Bubble sorting code
 void sort_dll(Node* head){
     Node* current;
     Node* pointer;
@@ -162,4 +187,14 @@ void swap(Node* prev, Node* current){
     temp = current->data;
     current->data = prev->data;
     prev->data = temp;   
+}
+
+void memoryLeak(Node* head){
+    /* Memory leak occurs when the program creates a memory and doesnt
+     delete that memory to free it for other cases. So to prevent that,
+     must free all the instance of malloc created (head node)*/
+    while (head->next != NULL){
+        head = head->next;
+        free(head->previous);
+    }
 }
