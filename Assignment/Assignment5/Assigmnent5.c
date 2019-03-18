@@ -1,3 +1,5 @@
+
+  
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,30 +23,32 @@ void swap(Node* prev, Node* current);
 void memoryLeak(Node* head);
 
 
-int main(){
-    int array[5] = {11, 2, 7, 22, 4};
-    Node* head;
-    /* Question 1 */
-    head = create_dll_from_array(array, 5); //size of array is 5
-    /* Question 2 */
-    print_dll(head);
-    /* Question 3 */
-    // To insert 13 after the first occurence of 7
-    insert_after(head, 7, 13);
-    // To insert 29 after the first occurence of 21
-    insert_after(head, 21, 29);
-    print_dll(head);
-    /* Question 4 */
-    delete_element(head, 13);
-    print_dll(head);
-    delete_element(head, 11);   
-    print_dll(head);
-    /* Question 5 */
-    sort_dll(head);
-    print_dll(head);
-    /* Question 6 */
-    memoryLeak(head);
-    return 0;
+int main()
+{
+ int array[5] = {11, 2, 7, 22, 4};
+ Node* head;
+ /* Question 1 */
+ head = create_dll_from_array(array, 5); //size of array is 5
+ /* Question 2 */
+ print_dll(head);
+ /* Question 3 */
+ // To insert 13 after the first occurence of 7
+ insert_after(head, 7, 13);
+ // To insert 29 after the first occurence of 21
+ insert_after(head, 21, 29);
+ print_dll(head);
+ /* Question 4 */
+ delete_element(head, 22);
+ print_dll(head);
+ delete_element(head, 11);
+ print_dll(head);
+ /* Question 5 */
+ sort_dll(head);
+ print_dll(head);
+ /* Question 6 */
+ // add the call to your function here
+ memoryLeak(head);
+ return 0;
 }
 
 // Create the List from the array
@@ -103,66 +107,63 @@ void insert_after(Node* head, int valueToInsertAfter, int valueToBeInserted){
     current = head;
 
     while (current != NULL){
-        if (current->data == valueToInsertAfter) {
+        if (current->data == valueToInsertAfter && current->next !=NULL) {
             new_Node->next = current->next;
             new_Node->previous = current->next->previous;
             current->next->previous = new_Node;
             current->next = new_Node;
             return;
 
-        } else if (current->data != valueToBeInserted && current->next == NULL){
+        }
+        if (current->data == valueToBeInserted && current->next == NULL){
+            current->next = new_Node;
+            new_Node->previous = current;
+            new_Node->next = NULL;
+        }
+        if (current->data != valueToBeInserted && current->next == NULL){
             current->next = new_Node;
             new_Node->previous = current;
             new_Node->next = NULL;
             return;
         }
-        current = current->next;
+    current = current->next;
     }
     free(new_Node);
     free(current);
 }
 
 void delete_element(Node* head, int valueToBeDeleted){
-    Node *current = malloc(sizeof(Node));
+    Node *current;
     current = head;
-    int size = 0;
-    // Edge case trying to delete only node
-    while (current != NULL){
-        size++;
-        current = current->next;
-    }
-    current = head;
-    if (size == 1 && valueToBeDeleted == head->data){
-        free(head);
+    // First element edge case
+    if (head->data == valueToBeDeleted){
+        current = head->next;
+        head->data = current->data;
+        head->next = current->next;
+        current->next->previous = head;
         return;
     }
         while (current != NULL){
-            // First element edge case
-            if (head->data == valueToBeDeleted){
-                
-                head->data = head->next->data;
-                head->next = head->next->next;
-                head->next->next->previous = head;
-                return;
-            }
             // Not first nor last element
             if (current->data == valueToBeDeleted && current->next != NULL && current->previous !=NULL){
 
                 current->next->previous = current->previous;
                 current->previous->next = current->next;
-                free(current);
                 return;
             }
             // Last element edge case
-            if (current->data == valueToBeDeleted){
-                
+            if (current->data == valueToBeDeleted && current->next == NULL){
+
                 current->previous->next = NULL;
+                current->previous = NULL;
+                return;
+            }
+            if (current->data == valueToBeDeleted && head->next == NULL && head->previous == NULL) {
                 free(current);
                 return;
             }
     current = current->next;
     }
-    free(current);
 }
 
 // Bubble sorting code
@@ -193,8 +194,10 @@ void memoryLeak(Node* head){
     /* Memory leak occurs when the program creates a memory and doesnt
      delete that memory to free it for other cases. So to prevent that,
      must free all the instance of malloc created (head node)*/
-    while (head->next != NULL){
+    Node *temp;
+    while (head != NULL){
+        temp = head;
         head = head->next;
-        free(head->previous);
+        free(temp);
     }
 }

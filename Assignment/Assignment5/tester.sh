@@ -1,5 +1,5 @@
 #!/bin/bash
 
-gcc -o Assignment5 Assigmnent5.c 
+gcc -o dllstructure dllstructure.c 
 chmod u+x tester.sh
-./Assignment5
+./dllstructure
