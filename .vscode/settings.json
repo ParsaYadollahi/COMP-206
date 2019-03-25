@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "system_error": "c",
+        "convert_to_csv.h": "c",
+        "stdlib.h": "c"
     }
 }
