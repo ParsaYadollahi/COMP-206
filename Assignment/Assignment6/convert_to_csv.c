@@ -26,7 +26,6 @@ void load_and_convert(const char* filename) {
         if (i == 0){
             while (data != NULL) {
                 names[j] = data;
-                printf("%s\t", data);
                 printf("%s", names[j]);
                 printf("\n");
                 j++;
@@ -34,16 +33,13 @@ void load_and_convert(const char* filename) {
                 namec++;
             }
         }
-        // printf("gang %s\n", names[1]);
         j = 0;
         if (i == 1){
             while (data != NULL) {
                 age[j] = data;
-                // printf("%s\t", age[j]);
-
+                printf("%s\n", age[j]);
                 j++;
                 data = strtok(NULL, " ");
-                // printf("\n");
                 agec++; 
             }
         }
@@ -51,25 +47,22 @@ void load_and_convert(const char* filename) {
         if (i == 2) {
             while (data != NULL) {
                 city[j] = data;
-                // printf("%s\t", city[j]);
-
+                printf("%s\n", city[j]);
                 j++;
                 data = strtok(NULL, " ");
-                // printf("\n");
                 cityc++;
             }
         }
         i++;
+        
         fgets(array, 999, f);
     }
     if (namec != agec || agec != cityc || namec != cityc){
         printf("The input file is missing data\n");
     }
 
-    // printf("%s\n", names[0]);
 
     for (i = 0; i < namec; i++){
-        // fputs("hello", output);
         fputs(names[i], output);
         fputs(", ", output);
         fputs(age[i], output);
