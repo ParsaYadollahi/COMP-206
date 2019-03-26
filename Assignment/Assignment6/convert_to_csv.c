@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <convert_to_csv.h>
+#include "convert_to_csv.h"
 
 void load_and_convert(const char* filename) {
     int i;
@@ -13,7 +13,7 @@ void load_and_convert(const char* filename) {
     char* temp2;
     char* temp3;
     FILE *f = fopen(filename, "rt");
-    FILE *output = fopen("output.txt", "wt");
+    FILE *output = fopen("output.csv", "wt");
 
     if (f == NULL) {
         exit(1);
@@ -29,13 +29,14 @@ void load_and_convert(const char* filename) {
     fgets(array,999,f);
     insert_to_array(array, city);
 
-    while (i < 5){
+    i = 0;
+    while (names[i][0]){
         fputs(names[i], output);
         fputs(", ", output);
         fputs(age[i], output);
         fputs(", ", output);
         fputs(city[i], output);
-        fputs("\n", output);
+        fputs("\n\0", output);
         i++;
     }
 
@@ -43,11 +44,12 @@ void load_and_convert(const char* filename) {
     fclose(output);
 }
 
+// Remove spaces and new lines from array
 void insert_to_array(char array[1000], char words[1000][1000]){
     int i=0,j=0,cnt=0;
 
     for (i = 0; i < strlen(array); i++){
-        if (array[i] == ' ' || array[i] == '\0\n'){
+        if (array[i] == ' ' || array[i] == '\n' || array[i] == '\0'){
             words[cnt][j] = '\0';
             cnt++;
             j = 0;
@@ -56,8 +58,4 @@ void insert_to_array(char array[1000], char words[1000][1000]){
             j++;
         }
     }
-}
-
-int main() {
-    load_and_convert("input.txt");
 }
