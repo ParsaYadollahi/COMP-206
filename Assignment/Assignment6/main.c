@@ -82,6 +82,6 @@ void delete_record(const char* csv_filename, const char* name) {
     }
     fclose(f);
     fclose(new);
-    int remove(f);
+    remove(f);
     rename("temp.csv", "output.csv");
 }

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "convert_to_csv.h"
 
+void insert_to_array(char array[1000], char words[1000][1000]);
+
 void load_and_convert(const char* filename) {
     int i;
     char array[1000];
