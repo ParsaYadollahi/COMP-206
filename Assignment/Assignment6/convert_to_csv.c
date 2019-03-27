@@ -41,7 +41,6 @@ void load_and_convert(const char* filename) {
         fputs("\n\0", output);
         i++;
     }
-
     fclose(f);
     fclose(output);
 }

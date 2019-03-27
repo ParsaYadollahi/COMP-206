@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "convert_to_csv.c"
-#include "read_csv.c"
+#include <string.h>
+#include "convert_to_csv.h"
+#include "read_csv.h"
+
 
 void find_name(const char* csv_filenmae, const char* name);
 void add_record(const char* csv_filename, const char* name, const int age, const char* city);
@@ -68,7 +70,7 @@ void delete_record(const char* csv_filename, const char* name) {
     FILE *new = fopen("temp.csv", "wt");
     if (f == NULL) exit(1);
     char array[1000];
-    int size = 0,check = 0, i=0;
+    int size = 0,check = 0, i=0, ret;
 
     fgets(array,999,f);
     while(!feof(f)) {
@@ -82,6 +84,6 @@ void delete_record(const char* csv_filename, const char* name) {
     }
     fclose(f);
     fclose(new);
-    remove(f);
+    ret = remove("output.csv");
     rename("temp.csv", "output.csv");
 }
