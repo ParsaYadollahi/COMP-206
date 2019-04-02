@@ -28,8 +28,11 @@ int main()
 }
 
 void find_name(const char* csv_filenmae, const char* name) {
-    FILE *f = fopen("output.csv", "rt");
-    if (f == NULL) exit(1);
+    FILE *f = fopen(csv_filenmae, "rt");
+    if (f == NULL){
+        printf("File not found\n");
+        return;
+    }
     char array[1000];
     int i, count=0;
 
@@ -49,7 +52,7 @@ void find_name(const char* csv_filenmae, const char* name) {
 }
 
 void add_record(const char* csv_filename, const char* name, const int age, const char* city) {
-    FILE *output = fopen("output.csv", "at");
+    FILE *output = fopen(csv_filename, "at");
     if (output == NULL) exit(1);
 
 // Convert int to string
@@ -66,9 +69,12 @@ void add_record(const char* csv_filename, const char* name, const int age, const
     fclose(output);
 }
 void delete_record(const char* csv_filename, const char* name) {
-    FILE *f = fopen("output.csv", "rt");
+    FILE *f = fopen(csv_filename, "rt");
     FILE *new = fopen("temp.csv", "wt");
-    if (f == NULL) exit(1);
+    if (f == NULL){
+        printf("File not found");
+        return;
+    }
     char array[1000];
     int size = 0,check = 0, i=0, ret;
 

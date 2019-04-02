@@ -3,7 +3,7 @@
 #include <string.h>
 #include "convert_to_csv.h"
 
-void insert_to_array(char array[1000], char words[1000][1000]);
+static void insert_to_array(char array[1000], char words[1000][1000]);
 
 void load_and_convert(const char* filename) {
     int i;
@@ -46,7 +46,7 @@ void load_and_convert(const char* filename) {
 }
 
 // Remove spaces and new lines from array
-void insert_to_array(char array[1000], char words[1000][1000]){
+static void insert_to_array(char array[1000], char words[1000][1000]){
     int i=0,j=0,cnt=0;
 
     for (i = 0; i < strlen(array); i++){

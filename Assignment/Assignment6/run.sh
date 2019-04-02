@@ -6,8 +6,9 @@ gcc main.o convert_to_csv.o read_csv.o
 ./a.out
 
 rm main.o
-rm  convert_to_csv.o
+rm convert_to_csv.o
 rm read_csv.o
+rm a.out
 
 echo "Compiling and running successful"
 
