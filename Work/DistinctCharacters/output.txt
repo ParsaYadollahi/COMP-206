@@ -1,0 +1,5 @@
+Number of characters: 6120
+Number of letters: 3506
+Number of digits: 223
+Number of symbols: 28
+Number of sentences: 3
